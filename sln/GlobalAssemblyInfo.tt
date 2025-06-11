@@ -1,0 +1,12 @@
+<#@ template language="C#" #>
+using System.Reflection;
+<#
+	System.DateTime now = System.DateTime.UtcNow;
+	int bld = now.Hour * 3600 + now.Minute * 60 + now.Second;
+#>
+
+[assembly: AssemblyCompany("Sydney Hawkesbury")]
+[assembly: AssemblyCopyright("Copyright (C) Sydney Hawkesbury 2025/<#= now.ToString("yyyy") #>")]
+[assembly: AssemblyVersion("<#= now.ToString("yyyy.MM.dd.") + bld.ToString() #>")]
+[assembly: AssemblyFileVersion("<#= now.ToString("yyyy.MM.dd.") + bld.ToString() #>")]
+[assembly: AssemblyMetadataAttribute("BuildTime", "<#= now.ToString("yyyy-MM-ddTHH:mm:ssZ") #>")]

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Hawkesbury.Core;
 using Hawkesbury.Core.Text;
 
 namespace Hawkesbury
@@ -17,12 +19,15 @@ namespace Hawkesbury
             ex.Add("BLA", fm);
             Console.OutputEncoding = Encoding.Unicode;
             Console.WriteLine("Hawkesbury Example");
-            Console.WriteLine("Date: '{DATETIME-1}' is '{UDATETIME-1}' | '{0,5:x}' | '{GUID}' '{GUID-2}'".Expand(42, new DateTime(2000,1,1), Guid.Empty));
+            Console.WriteLine("Date: '{DATETIME-1}' is '{UDATETIME-1}' | '{0,5:x}' | '{GUID}' '{GUID-2}'".Expand(42, new DateTime(2000, 1, 1), Guid.Empty));
             Console.WriteLine("'{BLA} {BLU}' [{REPEAT-0:10}]".Expand(ex, "sq"));
             Console.WriteLine("'{ENV-0:LCASE}' {RANDOM} {RANDOM:x} [#u{c3bf2012}]".Expand("COMPUTERNAME"));
             Console.WriteLine("F: '{FILE-0:BASENAME}' | {0}".Expand(new FileInfo(@"C:\Windows\explorer.exe")));
             Console.WriteLine("{TEXT-0} {TEXT-0:UCASE} {TEXT-1:LCASE}".Expand("hallo", "BALLO"));
             Console.WriteLine("{COUNTER} {COUNTER-2} {COUNTER} ".Expand("hallo", "BALLO", -42));
+
+            AssemblyInfo assemblyInfo = AssemblyInfo.Instance;
+
             Console.ReadKey();
         }
     }
