@@ -19,7 +19,7 @@ namespace Hawkesbury
             Console.WriteLine("Hawkesbury Example");
             Console.WriteLine("Date: '{DATETIME-1}' is '{UDATETIME-1}' | '{0,5:x}' | '{GUID-2}' '{GUID-2}'".Expand(42, new DateTime(2000,1,1), Guid.Empty));
             Console.WriteLine("'{BLA}'".Expand(ex));
-            Console.WriteLine("'{ENV,20:COMPUTERNAME}' {RANDOM} {RANDOM:x} [#3.c3bf20]".Expand());
+            Console.WriteLine("'{ENV,20:COMPUTERNAME}' {RANDOM} {RANDOM:x} [#u{c3bf2012}]".Expand());
             Console.WriteLine("F: '{FILE-0:BASENAME}' | {0}".Expand(new FileInfo(@"C:\Windows\explorer.exe")));
             Console.ReadKey();
         }

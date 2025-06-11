@@ -22,7 +22,11 @@ namespace Hawkesbury.Core.Text
 
         private static readonly Regex ReNamed = new Regex(@"\{(?<key>[a-zA-Z][a-zA-Z0-9_]*)(?:-(?<index>\d+))?(?:,(?<width>-?\d*))?(?:,(?<maxwidth>\d*))?(?::(?<format>[^\}]+))?\}");
         private static readonly Regex ReIndexed = new Regex(@"\{(?<index>\d+)(?:,(?<width>-?\d*))?(?:,(?<maxwidth>\d*))?(?::(?<format>[^\}]+))?\}");
-        private static readonly Regex ReHash = new Regex(@"#(?<code>[uU])?(?:(?<count>\d+)\.)?(?<hex>(?:[0-9a-fA-F]{2})+)");
+        //private static readonly Regex ReHashed = new Regex(@"#(?<code>[uU])?(?:(?<count>\d+)\.)?(?<hex>(?:[0-9a-fA-F]{2})+)");
+        private static readonly Regex ReHashed1 = new Regex(@"#(?<code>u|U)?(?<hex>(?:(?<=u|U)[0-9a-fA-F]{2})?[0-9a-fA-F]{2})");
+        private static readonly Regex ReHashed2 = new Regex(@"#(?<par>\{)(?<hex>(?:[0-9a-fA-F]{2})+)\}");
+        private static readonly Regex ReHashed3 = new Regex(@"#(?<code>u|U)(?<par>\{)(?<hex>(?:[0-9a-fA-F]{4})+)\}");
+
         private static readonly Regex ReIsHex = new Regex(@"^[0-9a-fA-F\s]+$");
         private static readonly Regex ReIsHexOnly = new Regex(@"^[0-9a-fA-F]+$");
         private static readonly Regex ReExtractHex = new Regex(@"([0-9a-fA-F]+)");
@@ -185,8 +189,8 @@ namespace Hawkesbury.Core.Text
                                 case "UDATE":
                                 case "UTIME":
                                 case "UDATETIME":
-                                        rslt = rslt.Replace(match.Value, AdjustWidth(expandNamed(key, format, value is DateTime d ? d : dt), width, (uint?)maxwidth));
-                                        break;
+                                    rslt = rslt.Replace(match.Value, AdjustWidth(expandNamed(key, format, value is DateTime d ? d : dt), width, (uint?)maxwidth));
+                                    break;
                                 case "GUID":
                                     rslt = rpl(rslt, value is Guid g ? g : Guid.NewGuid()); break;
                                 case "RANDOM":
@@ -202,28 +206,18 @@ namespace Hawkesbury.Core.Text
                     }
                 }
             }
-            foreach (var match in ReHash.Matches(rslt).OfType<Match>())
+            foreach (var match in ReHashed1.Matches(rslt).OfType<Match>().Concat(ReHashed2.Matches(rslt).OfType<Match>()).Concat(ReHashed3.Matches(rslt).OfType<Match>()))
             {
                 var code = match.Groups["code"].Value;
-                var factor = "u".Equals(code, StringComparison.CurrentCultureIgnoreCase) ? 4 : 2;
-                var count = (StringToInt(match.Groups["count"].Value) ?? 1) * factor;
                 var hex = match.Groups["hex"].Value;
-                if (hex.Length == count)
+                var par = match.Groups["par"].Value;
+                var i = rslt.IndexOf(match.Value);
+                if (i >= 0)
                 {
-                    rslt = rslt.Replace(match.Value, ByteArrayToString(code, FromHexStringToByteArray(hex)));
-                }
-                else
-                {
-                    var i = rslt.IndexOf(match.Value);
-                    if (i >= 0)
-                    {
-                        var a = rslt.Substring(0, i);
-                        var b = ByteArrayToString(code, FromHexStringToByteArray(hex.Substring(0, count)));
-                        var cntlen = match.Groups["count"].Value.Length;
-                        if (cntlen > 0) cntlen++;
-                        var c = rslt.Substring(i + 1 + cntlen + code.Length + count);
-                        rslt = a + b + c;
-                    }
+                    var a = rslt.Substring(0, i);
+                    var b = ByteArrayToString(code, FromHexStringToByteArray(hex));
+                    var c = rslt.Substring(i + 1 + 2 * par.Length + code.Length + hex.Length);
+                    rslt = a + b + c;
                 }
             }
             if (objects != null && objects.Length > 0)
