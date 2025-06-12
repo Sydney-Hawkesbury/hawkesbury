@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Hawkesbury.Core;
+using Hawkesbury.Core.ComponentModel;
+using Hawkesbury.Core.Settings;
 using Hawkesbury.Core.Text;
 
 namespace Hawkesbury
@@ -27,9 +29,14 @@ namespace Hawkesbury
             Console.WriteLine("{TEXT-0} {TEXT-0:UCASE} {TEXT-1:LCASE}".Expand("hallo", "BALLO"));
             Console.WriteLine("{COUNTER} {COUNTER-2} {COUNTER} ".Expand("hallo", "BALLO", -42));
 
-            AssemblyInfo assemblyInfo = AssemblyInfo.Instance;
-
-            Console.ReadKey();
+            AppSettingsSimple appSettings1 = AppSettingsSimple.GetInstance();
+            appSettings1.MostResecentlyUsedFiles.LastValue = "asdf";
+            appSettings1.MostResecentlyUsedFiles.LastValue = "null";
+            appSettings1.MostResecentlyUsedFiles.LastValue = null;
+            appSettings1.Example1 = "Hallo1";
+            appSettings1.Example2 = "Ballo";
+            appSettings1.SimpleSettings = null;
+             Console.ReadKey();
         }
     }
 }

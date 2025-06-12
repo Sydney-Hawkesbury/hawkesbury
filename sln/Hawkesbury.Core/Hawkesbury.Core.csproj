@@ -48,8 +48,12 @@
       <DependentUpon>GlobalAssemblyInfo.tt</DependentUpon>
     </Compile>
     <Compile Include="Core\AssemblyInfo.cs" />
+    <Compile Include="Core\Collections\Generic\MruCollection.cs" />
+    <Compile Include="Core\Collections\Generic\ObservableDictionary.cs" />
     <Compile Include="Core\ComponentModel\INotifyPropertyChangedExtensions.cs" />
     <Compile Include="Core\Linq\Extensions.cs" />
+    <Compile Include="Core\Settings\AppSettingsBase.cs" />
+    <Compile Include="Core\Settings\AppSettingsSimple.cs" />
     <Compile Include="Core\Text\StringExpander.cs" />
     <Compile Include="Core\Text\Translations\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

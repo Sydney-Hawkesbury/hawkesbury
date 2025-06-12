@@ -93,7 +93,7 @@ namespace Hawkesbury.Core
             });
 
             ConfigDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Company ?? string.Empty, Name);
-            ConfigFilename = Path.Combine(ConfigDir, "Application.cfg.xml");
+            ConfigFilename = Path.Combine(ConfigDir, "AppConfig.xml");
         }
 
         public static AssemblyInfo GetInstance(Assembly assembly = null)
