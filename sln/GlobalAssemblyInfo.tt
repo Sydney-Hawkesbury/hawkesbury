@@ -6,7 +6,7 @@ using System.Reflection;
 #>
 
 [assembly: AssemblyCompany("Sydney Hawkesbury")]
-[assembly: AssemblyCopyright("Copyright (C) Sydney Hawkesbury 2025/<#= now.ToString("yyyy") #>")]
+[assembly: AssemblyCopyright("Copyright (C) Sydney Hawkesbury GNU GPL 3.0")]
 [assembly: AssemblyVersion("<#= now.ToString("yyyy.MM.dd.") + bld.ToString() #>")]
 [assembly: AssemblyFileVersion("<#= now.ToString("yyyy.MM.dd.") + bld.ToString() #>")]
 [assembly: AssemblyMetadataAttribute("BuildTime", "<#= now.ToString("yyyy-MM-ddTHH:mm:ssZ") #>")]
