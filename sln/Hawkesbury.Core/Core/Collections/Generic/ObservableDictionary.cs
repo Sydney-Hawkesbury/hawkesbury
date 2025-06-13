@@ -157,9 +157,12 @@ namespace Hawkesbury.Core.Collections.Generic
                         this[key] = value;
                     }
                 }
-                if (reader.Name == n) break;
+                else
+                {
+                    break;
+                }
             }
-            reader.Read();
+            if (n == reader.Name) reader.Read();
         }
 
         public virtual void WriteXml(XmlWriter writer)

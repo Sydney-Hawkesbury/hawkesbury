@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml;
 using System.Xml.Serialization;
+using Hawkesbury.Core.Collections.Generic;
 
 namespace Hawkesbury.Core.Settings
 {
@@ -13,6 +14,8 @@ namespace Hawkesbury.Core.Settings
 
         [XmlIgnore]
         public string Example2 { get; set; }
+
+        public Tripel<string, int, double> Example3 { get; set; }
 
         private AppSettingsSimple() { }
         public static AppSettingsSimple GetInstance() => _Instance.Value;

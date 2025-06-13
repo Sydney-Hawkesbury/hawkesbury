@@ -24,6 +24,10 @@ namespace Hawkesbury.Core.Settings
         public string Directory { get; }
 
         private MruCollection<string> _MostResecentlyUsedFiles;
+
+        /// <summary>
+        /// List for most recently used files
+        /// </summary>
         public MruCollection<string> MostResecentlyUsedFiles
         {
             get
@@ -35,6 +39,10 @@ namespace Hawkesbury.Core.Settings
         }
 
         private MruCollection<string> _MostResecentlyUsedFolders;
+
+        /// <summary>
+        /// List for most recently used folders
+        /// </summary>
         public MruCollection<string> MostResecentlyUsedFolders
         {
             get
@@ -46,6 +54,10 @@ namespace Hawkesbury.Core.Settings
         }
 
         private ObservableDictionary<string, string> _SimpleSettings;
+
+        /// <summary>
+        /// String dictionary for simple named settings
+        /// </summary>
         public ObservableDictionary<string, string> SimpleSettings
         {
             get { if (_SimpleSettings == null) _SimpleSettings = new ObservableDictionary<string, string>(); return _SimpleSettings; }
@@ -97,7 +109,16 @@ namespace Hawkesbury.Core.Settings
             return appSettings;
         }
 
+        /// <summary>
+        /// Method called after settings are loaded from file. Use it to read settings, that cannot deserialized.
+        /// </summary>
+        /// <param name="xmlDocument"></param>
         protected virtual void AfterLoad(XmlDocument xmlDocument) { }
+
+        /// <summary>
+        /// Method called before saving to file. Use is to store settings, that cannot be serialized.
+        /// </summary>
+        /// <param name="xmlDocument"></param>
         protected virtual void BeforeSave(XmlDocument xmlDocument) { }
 
         private void Save()

@@ -13,5 +13,7 @@ namespace Hawkesbury.Core.Linq
             if (values == null || action == null) return;
             foreach (var item in values) action(item);
         }
+
+        
     }
 }

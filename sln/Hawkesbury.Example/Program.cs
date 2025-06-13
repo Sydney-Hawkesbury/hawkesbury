@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -30,13 +31,14 @@ namespace Hawkesbury
             Console.WriteLine("{COUNTER} {COUNTER-2} {COUNTER} ".Expand("hallo", "BALLO", -42));
 
             AppSettingsSimple appSettings1 = AppSettingsSimple.GetInstance();
-            appSettings1.MostResecentlyUsedFiles.LastValue = "asdf";
-            appSettings1.MostResecentlyUsedFiles.LastValue = "null";
-            appSettings1.MostResecentlyUsedFiles.LastValue = null;
-            appSettings1.Example1 = "Hallo1";
-            appSettings1.Example2 = "Ballo";
-            appSettings1.SimpleSettings = null;
-             Console.ReadKey();
+            //appSettings1.MostResecentlyUsedFiles.LastValue = "asdf";
+            //appSettings1.MostResecentlyUsedFiles.LastValue = "null";
+            //appSettings1.MostResecentlyUsedFiles.LastValue = null;
+            //appSettings1.Example1 = "Hallo1";
+            //appSettings1.Example2 = "Ballo";
+            //appSettings1.SimpleSettings = null;
+            appSettings1.Example3.Item3 = 47.11;
+            Console.ReadKey();
         }
     }
 }

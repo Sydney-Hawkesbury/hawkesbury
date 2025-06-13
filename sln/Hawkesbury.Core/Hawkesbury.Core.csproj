@@ -48,14 +48,20 @@
       <DependentUpon>GlobalAssemblyInfo.tt</DependentUpon>
     </Compile>
     <Compile Include="Core\AssemblyInfo.cs" />
+    <Compile Include="Core\Collections\Generic\EventArgs.cs" />
     <Compile Include="Core\Collections\Generic\MruCollection.cs" />
     <Compile Include="Core\Collections\Generic\ObservableDictionary.cs" />
+    <Compile Include="Core\Collections\Generic\Pair.cs" />
+    <Compile Include="Core\Collections\Generic\Tripel.cs" />
     <Compile Include="Core\ComponentModel\INotifyPropertyChangedExtensions.cs" />
     <Compile Include="Core\Linq\Extensions.cs" />
+    <Compile Include="Core\Objects.cs" />
+    <Compile Include="Core\Serialization\ISerializeEvent.cs" />
     <Compile Include="Core\Settings\AppSettingsBase.cs" />
     <Compile Include="Core\Settings\AppSettingsSimple.cs" />
     <Compile Include="Core\Text\StringExpander.cs" />
     <Compile Include="Core\Text\Translations\Extensions.cs" />
+    <Compile Include="Core\Xml\Serialization\IXmlSerializableEvents.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +74,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Target Name="TransformOnBuild" BeforeTargets="BeforeBuild">
     <PropertyGroup>
       <_TransformExe>$(MSBuildExtensionsPath)\..\Common7\IDE\TextTransform.exe</_TransformExe>
