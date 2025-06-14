@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Hawkesbury.Core;
 using Hawkesbury.Core.ComponentModel;
@@ -18,27 +19,36 @@ namespace Hawkesbury
     {
         static void Main(string[] args)
         {
-            Dictionary<string, object> ex = new Dictionary<string, object>();
-            StringExpander.ExpandNamed fm = (k, f, o) => "Hallo";
-            ex.Add("BLA", fm);
-            Console.OutputEncoding = Encoding.Unicode;
-            Console.WriteLine("Hawkesbury Example");
-            Console.WriteLine("Date: '{DATETIME-1}' is '{UDATETIME-1}' | '{0,5:x}' | '{GUID}' '{GUID-2}'".Expand(42, new DateTime(2000, 1, 1), Guid.Empty));
-            Console.WriteLine("'{BLA} {BLU}' [{REPEAT-0:10}]".Expand(ex, "sq"));
-            Console.WriteLine("'{ENV-0:LCASE}' {RANDOM} {RANDOM:x} [#u{c3bf2012}]".Expand("COMPUTERNAME"));
-            Console.WriteLine("F: '{FILE-0:BASENAME}' | {0}".Expand(new FileInfo(@"C:\Windows\explorer.exe")));
-            Console.WriteLine("{TEXT-0} {TEXT-0:UCASE} {TEXT-1:LCASE}".Expand("hallo", "BALLO"));
-            Console.WriteLine("{COUNTER} {COUNTER-2} {COUNTER} ".Expand("hallo", "BALLO", -42));
+            for (int i = 21; i < 40; i++) a(i);
 
-            AppSettingsSimple appSettings1 = AppSettingsSimple.GetInstance();
-            //appSettings1.MostResecentlyUsedFiles.LastValue = "asdf";
-            //appSettings1.MostResecentlyUsedFiles.LastValue = "null";
-            //appSettings1.MostResecentlyUsedFiles.LastValue = null;
-            //appSettings1.Example1 = "Hallo1";
-            //appSettings1.Example2 = "Ballo";
-            //appSettings1.SimpleSettings = null;
-            appSettings1.Example3.Item3 = 47.11;
+            Console.WriteLine(new String('=', Console.WindowWidth - 1));
+            Console.WriteLine("Press any key");
             Console.ReadKey();
+        }
+
+        static void a(int num)
+        {
+            Console.WriteLine("Vor Thread Start {0}", num);
+            Thread t = new Thread(() =>
+            {
+                Console.WriteLine("T {0}: Thread gestartet", num);
+                Console.WriteLine("T {0}: {1}", num, AppSettingsSimple.Instance.Path);
+                AppSettingsSimple.Instance.SimpleSettings["Hallo"] = "ballo";
+                Console.WriteLine("T {0}: Removing asdf{0}", num);
+                AppSettingsSimple.Instance.SimpleSettings.Remove("asdf" + num.ToString());
+                Thread.Sleep(2000);
+                Console.WriteLine("T {0}: {1}", num, AppSettingsSimple.Instance.SimpleSettings["asdf" + num.ToString(), "???"]);
+            });
+            t.Start();
+            Thread.Sleep(500);
+            Console.WriteLine("Nach Thread Start {0}", num);
+            Console.WriteLine(AppSettingsSimple.Instance.SimpleSettings["Hallo"]);
+            AppSettingsSimple.Instance.SimpleSettings["asdf"] = "jklö";
+            Console.WriteLine("T {0}: Adding asdf{0}", num);
+            AppSettingsSimple.Instance.SimpleSettings["asdf" + num.ToString()] = "qwerty" + num.ToString();
+            t.Join();
+            Console.WriteLine("Thread {0} beendet", num);
+
         }
     }
 }

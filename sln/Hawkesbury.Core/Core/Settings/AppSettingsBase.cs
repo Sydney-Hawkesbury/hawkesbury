@@ -70,6 +70,7 @@ namespace Hawkesbury.Core.Settings
 
         protected AppSettingsBase()
         {
+            Console.WriteLine("****************************");
             Path = AssemblyInfo.Instance.ConfigFilename;
             Directory = AssemblyInfo.Instance.ConfigDir;
         }

@@ -57,11 +57,14 @@ namespace Hawkesbury.Core.Collections.Generic
         {
             if (_InnerDictionary.ContainsKey(key))
             {
-                var oldValue = _InnerDictionary.First(kvp => kvp.Key.Equals(key));
-                _InnerDictionary[key] = value;
-                var newValue = _InnerDictionary.First(kvp => kvp.Key.Equals(key));
-                NotifyCollectionChangedEventArgs e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldValue, newValue);
-                RaiseNotifyCollectionChanged(e);
+                lock (this)
+                {
+                    var oldValue = _InnerDictionary.First(kvp => kvp.Key.Equals(key));
+                    _InnerDictionary[key] = value;
+                    var newValue = _InnerDictionary.First(kvp => kvp.Key.Equals(key));
+                    NotifyCollectionChangedEventArgs e = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldValue, newValue);
+                    RaiseNotifyCollectionChanged(e);
+                }
             }
             else
             {
